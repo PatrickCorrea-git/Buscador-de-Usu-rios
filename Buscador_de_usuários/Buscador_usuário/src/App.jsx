@@ -12,11 +12,38 @@ function App() {
   //Função de busca
 
   const searchUsers = async () => {
+    // 1.Ativar loading
     setLoad(true);
+    // 2. Limpar erro anterior
     setError("");
+    // 3.Limpar lista de usuários
     setUsers([]);
-    
-  }
+
+    try {
+      // 4.Preparar URL da API com o termo de busca
+      const response = await fetch(`https://api.github.com/search/users?q=${search}`);
+
+      // 5.Checar se a resposta deu certo
+      if (!response.ok) {
+        throw new Error("Erro ao buscar usuários");
+      }
+      
+      const data = await response.json();
+
+    // 6. Atualizar estado de usuários
+    if (data.items.length === 0) {
+      setError("Nenhum usuário encontrado");
+    }else {
+      setUsers(data.items);
+      }
+    }catch (err) {
+      // 7. Tratar erros
+      setError(err.message || "Ocorreu um erro");
+    }finally{
+      // 8. Desativar loading
+      setLoad(false);
+    }
+  };
 
   return (
     <div>
