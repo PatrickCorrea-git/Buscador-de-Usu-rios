@@ -12,14 +12,17 @@ function App() {
   //Função de busca
 
   const searchUsers = async () => {
-    // logica do fetch
+    setLoad(true);
+    setError("");
+    setUsers([]);
+    
   }
 
   return (
     <div>
       <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} />
       <button onClick={searchUsers}>Buscar</button>
-      
+
       {/* mostrar loading */}
       {load && <p>Carregando...</p>}
 
